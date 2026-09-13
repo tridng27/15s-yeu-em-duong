@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Dương</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Dancing+Script:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+<style>
+  /* ---- tokens ---- */
+  :root{
+    --cream:        #FFF6F1;
+    --paper:        #FFFBF8;
+    --blush:        #FFE1E7;
+    --blush-deep:   #F9C3CE;
+    --rose-300:     #F7A8B8;
+    --rose-400:     #F0577A;
+    --rose-500:     #E0355F;
+    --rose-600:     #C21E4E;
+    --rose-700:     #971A3E;
+    --plum-900:     #45102A;
+    --plum-700:     #6B1E3C;
+    --gold-400:     #E3B23C;
+    --ink:          #401427;
+    --ink-soft:     #7A3A52;
+    --ring:         #E0355F;
+
+    --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --font-script:  'Dancing Script', 'Brush Script MT', cursive;
+    --font-body:    'Cormorant Garamond', Georgia, serif;
+
+    --shadow-soft:  0 20px 50px -20px rgba(151, 26, 62, 0.35);
+    --shadow-hard:  0 12px 30px -10px rgba(69, 16, 42, 0.45);
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ color-scheme: light; }
+
+  body{
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--font-body);
+    padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  h1, h2, h3{ text-wrap: balance; margin: 0; }
+  p{ margin: 0; }
+
+  a{ color: inherit; }
+
+  /* ---- ambient petal canvas ---- */
+  #petal-canvas{
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .page{
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(48px, 9vw, 88px);
+    padding-block: clamp(40px, 8vh, 96px) 120px;
+  }
+
+  /* ---- eyebrow ---- */
+  .eyebrow{
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--rose-600);
+    text-align: center;
+  }
+
+  /* ---- hero ---- */
+  .hero{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    text-align: center;
+    opacity: 0;
+    animation: bloom-in 1.4s cubic-bezier(.22,1,.36,1) 0.15s forwards;
+  }
+
+  .hero-icons{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .hero-icons svg{
+    width: clamp(28px, 5vw, 40px);
+    height: auto;
+  }
+  .hero-icons svg:nth-child(2){
+    width: clamp(40px, 7vw, 58px);
+  }
+
+  .hero-name{
+    font-family: var(--font-script);
+    font-weight: 700;
+    font-size: clamp(3rem, 7vw + 1rem, 5.5rem);
+    line-height: 1.05;
+    color: var(--rose-600);
+    background: linear-gradient(115deg, var(--rose-700) 10%, var(--rose-400) 45%, var(--gold-400) 75%, var(--rose-500) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .hero-name{ animation: shimmer 7s ease-in-out infinite; }
+  }
+
+  .hero-sub{
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1rem, 1.6vw + 0.6rem, 1.35rem);
+    color: var(--ink-soft);
+  }
+
+  @keyframes bloom-in{
+    from{ opacity: 0; transform: translateY(18px) scale(0.97); }
+    to{ opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes shimmer{
+    0%, 100%{ background-position: 0% 50%; }
+    50%{ background-position: 100% 50%; }
+  }
+
+  /* ---- letter card ---- */
+  .letter{
+    position: relative;
+    width: 100%;
+    background: var(--paper);
+    border-radius: 6px;
+    padding: clamp(32px, 6vw, 56px) clamp(24px, 7vw, 60px);
+    box-shadow: var(--shadow-soft), inset 0 0 0 1px rgba(151,26,62,0.08);
+    opacity: 0;
+    animation: rise-in 1s cubic-bezier(.22,1,.36,1) 0.5s forwards;
+  }
+
+  @keyframes rise-in{
+    from{ opacity: 0; transform: translateY(26px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+
+  .seal{
+    position: absolute;
+    top: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, var(--rose-400), var(--rose-700) 75%);
+    box-shadow: var(--shadow-hard);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .seal svg{ width: 30px; height: 30px; }
+
+  .letter p{
+    font-size: clamp(1.15rem, 1.1vw + 0.8rem, 1.4rem);
+    line-height: 1.65;
+    color: var(--plum-900);
+  }
+  .letter p + p{ margin-top: 1.15em; }
+  .letter .salutation{
+    font-style: italic;
+    color: var(--rose-600);
+  }
+  .letter .sign-off{
+    display: block;
+    margin-top: 1.6em;
+    font-family: var(--font-script);
+    font-size: 1.7rem;
+    color: var(--rose-600);
+  }
+
+  /* ---- the ask ---- */
+  .ask{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(28px, 5vw, 40px);
+    text-align: center;
+    width: 100%;
+  }
+
+  .ask-question{
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(1.9rem, 3.6vw + 0.8rem, 3.1rem);
+    color: var(--plum-900);
+  }
+  .ask-question em{
+    font-style: italic;
+    color: var(--rose-600);
+  }
+
+  .buttons{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    flex-wrap: wrap;
+    width: 100%;
+    min-height: 220px;
+  }
+
+  .btn{
+    font-family: var(--font-display);
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-yes{
+    background: linear-gradient(135deg, var(--rose-500), var(--rose-700));
+    color: var(--cream);
+    padding: 18px 40px;
+    font-size: clamp(1.05rem, 1vw + 0.8rem, 1.3rem);
+    box-shadow: var(--shadow-hard);
+    transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s, font-size .35s;
+  }
+  .btn-yes:hover, .btn-yes:focus-visible{
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 16px 36px -10px rgba(151,26,62,0.55);
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .btn-yes{ animation: heartbeat 2.6s ease-in-out infinite; }
+  }
+  @keyframes heartbeat{
+    0%, 100%{ box-shadow: var(--shadow-hard); }
+    50%{ box-shadow: 0 12px 30px -6px rgba(224,53,95,0.65); }
+  }
+
+  .btn-no{
+    position: relative;
+    background: transparent;
+    color: var(--ink-soft);
+    padding: 18px 34px;
+    font-size: 1.05rem;
+    box-shadow: inset 0 0 0 1.5px var(--blush-deep);
+    transition: left .28s ease, top .28s ease, transform .15s ease;
+  }
+  .btn-no.dodging{
+    position: absolute;
+  }
+  .btn-no:hover{ color: var(--rose-600); }
+
+  .btn:focus-visible{ outline: 2px solid var(--ring); outline-offset: 3px; }
+
+  .dodge-count{
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    font-style: italic;
+    min-height: 1.4em;
+  }
+
+  /* ---- celebration ---- */
+  .celebration{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+  }
+  .celebration.show{
+    display: flex;
+    animation: bloom-in .9s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  .celebration-icon svg{
+    width: 64px;
+    height: 64px;
+  }
+  .celebration h2{
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(1.8rem, 3vw + 0.8rem, 2.6rem);
+    color: var(--rose-600);
+  }
+  .celebration p{
+    font-family: var(--font-body);
+    font-size: clamp(1.1rem, 1vw + 0.7rem, 1.3rem);
+    color: var(--plum-900);
+    max-width: 46ch;
+  }
+
+  /* ---- corner roses ---- */
+  .corner-rose{
+    position: fixed;
+    z-index: 0;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .corner-rose.tl{ top: -10px; left: -18px; width: clamp(70px, 12vw, 130px); }
+  .corner-rose.br{ bottom: -18px; right: -22px; width: clamp(80px, 14vw, 150px); transform: rotate(200deg); }
+  @media (prefers-reduced-motion: no-preference){
+    .corner-rose.tl{ animation: sway-tl 8s ease-in-out infinite; }
+    .corner-rose.br{ animation: sway-br 9s ease-in-out infinite; }
+  }
+  @keyframes sway-tl{
+    0%, 100%{ transform: rotate(-4deg) translateY(0); }
+    50%{ transform: rotate(2deg) translateY(6px); }
+  }
+  @keyframes sway-br{
+    0%, 100%{ transform: rotate(200deg) translateY(0); }
+    50%{ transform: rotate(206deg) translateY(-8px); }
+  }
+
+  footer.note{
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    text-align: center;
+    opacity: 0.75;
+  }
+
+  @media (max-width: 420px){
+    .buttons{ min-height: 260px; }
+  }
+</style>
+</head>
+<body>
+
+<svg style="position:absolute; width:0; height:0; overflow:hidden;" aria-hidden="true">
+  <defs>
+    <g id="rose-petal">
+      <path d="M32 8 C41 9 47 19 46 29 C45 41 33 55 32 58 C31 55 19 41 18 29 C17 19 23 9 32 8 Z"/>
+    </g>
+    <symbol id="icon-rose" viewBox="0 0 64 64">
+      <g fill="var(--rose-500)">
+        <use href="#rose-petal" transform="rotate(0 32 32)"/>
+        <use href="#rose-petal" transform="rotate(72 32 32)"/>
+        <use href="#rose-petal" transform="rotate(144 32 32)"/>
+        <use href="#rose-petal" transform="rotate(216 32 32)"/>
+        <use href="#rose-petal" transform="rotate(288 32 32)"/>
+      </g>
+      <circle cx="32" cy="32" r="6" fill="var(--gold-400)"/>
+    </symbol>
+    <symbol id="icon-rose-outline" viewBox="0 0 64 64">
+      <g fill="none" stroke="var(--rose-500)" stroke-width="1.6" opacity="0.8">
+        <use href="#rose-petal" transform="rotate(0 32 32)"/>
+        <use href="#rose-petal" transform="rotate(72 32 32)"/>
+        <use href="#rose-petal" transform="rotate(144 32 32)"/>
+        <use href="#rose-petal" transform="rotate(216 32 32)"/>
+        <use href="#rose-petal" transform="rotate(288 32 32)"/>
+      </g>
+      <circle cx="32" cy="32" r="5" fill="var(--gold-400)" opacity="0.8"/>
+    </symbol>
+  </defs>
+</svg>
+
+<canvas id="petal-canvas" aria-hidden="true"></canvas>
+
+<svg class="corner-rose tl" viewBox="0 0 64 64" aria-hidden="true"><use href="#icon-rose-outline"/></svg>
+<svg class="corner-rose br" viewBox="0 0 64 64" aria-hidden="true"><use href="#icon-rose-outline"/></svg>
+
+<main class="page">
+
+  <section class="hero">
+    <p class="eyebrow">A letter carried on petals, for</p>
+    <h1 class="hero-name">Doãn Thùy Dương</h1>
+    <div class="hero-icons" aria-hidden="true">
+      <svg viewBox="0 0 64 64"><use href="#icon-rose-outline"/></svg>
+      <svg viewBox="0 0 64 64"><use href="#icon-rose"/></svg>
+      <svg viewBox="0 0 64 64"><use href="#icon-rose-outline"/></svg>
+    </div>
+    <p class="hero-sub">every petal on this screen is the same thought, drifting past you again and again</p>
+  </section>
+
+  <section class="letter">
+    <div class="seal"><svg viewBox="0 0 64 64"><use href="#icon-rose"/></svg></div>
+    <p class="salutation">Dương ơi,</p>
+    <p>Some things are worth saying in more than a text message, so I built you a small garden instead. Every petal drifting across this page is the same thought, falling over and over — the way you've been on my mind, on repeat, for longer than I've let on.</p>
+    <p>If it isn't obvious yet: I like you. Not the quiet, unspoken kind of liking — the kind where I've rewritten this sentence more times than I'd admit, and finally decided it would come out steadier here, in red and pink, than it ever would standing in front of you.</p>
+    <p>So here it is, out in the open, roses and all —</p>
+    <span class="sign-off">will you let me take you out?</span>
+  </section>
+
+  <section class="ask" id="ask-section">
+    <h2 class="ask-question">Will you go out with me, <em>Dương</em>?</h2>
+    <div class="buttons" id="buttons-wrap">
+      <button class="btn btn-yes" id="btn-yes" type="button">Yes, always.</button>
+      <button class="btn btn-no" id="btn-no" type="button">No</button>
+    </div>
+    <p class="dodge-count" id="dodge-line" aria-live="polite"></p>
+  </section>
+
+  <section class="celebration" id="celebration">
+    <div class="celebration-icon"><svg viewBox="0 0 64 64"><use href="#icon-rose"/></svg></div>
+    <h2>Then it's a date.</h2>
+    <p>I'll be counting the days until — and I promise the next bouquet won't need a screen. Thank you for saying yes, Dương.</p>
+  </section>
+
+  <footer class="note">— written by the one who kept redrafting this at 2am</footer>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------- ambient + burst petal canvas ---------------- */
+  var canvas = document.getElementById('petal-canvas');
+  var ctx = canvas.getContext('2d');
+  var W, H, DPR;
+
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = W * DPR;
+    canvas.height = H * DPR;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  var COLORS = ['#E0355F', '#F0577A', '#F7A8B8', '#C21E4E', '#FFC9D6'];
+
+  function rand(a, b){ return a + Math.random() * (b - a); }
+  function pick(arr){ return arr[(Math.random() * arr.length) | 0]; }
+
+  function drawPetalShape(size, color, alpha){
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(size * 0.55, -size * 0.5, size * 0.85, size * 0.25, 0, size);
+    ctx.bezierCurveTo(-size * 0.85, size * 0.25, -size * 0.55, -size * 0.5, 0, 0);
+    ctx.closePath();
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  function makeAmbient(spawnAboveScreen){
+    return {
+      x: rand(0, W),
+      y: spawnAboveScreen ? rand(-H, 0) : rand(-40, -4),
+      size: rand(9, 20),
+      color: pick(COLORS),
+      rot: rand(0, Math.PI * 2),
+      rotSpeed: rand(-0.6, 0.6),
+      speedY: rand(18, 42),
+      swayAmp: rand(18, 55),
+      swayFreq: rand(0.3, 0.9),
+      swayPhase: rand(0, Math.PI * 2),
+      baseX: 0,
+      opacity: rand(0.55, 0.95)
+    };
+  }
+
+  var AMBIENT_COUNT = reduceMotion ? 8 : 34;
+  var ambient = [];
+  for (var i = 0; i < AMBIENT_COUNT; i++){
+    var p = makeAmbient(true);
+    p.baseX = p.x;
+    ambient.push(p);
+  }
+
+  var bursts = [];
+  function spawnBurst(x, y, count){
+    for (var i = 0; i < count; i++){
+      var ang = rand(0, Math.PI * 2);
+      var speed = rand(60, 260);
+      bursts.push({
+        x: x, y: y,
+        vx: Math.cos(ang) * speed,
+        vy: Math.sin(ang) * speed - 120,
+        size: rand(7, 16),
+        color: pick(COLORS),
+        rot: rand(0, Math.PI * 2),
+        rotSpeed: rand(-4, 4),
+        life: 1,
+        decay: rand(0.35, 0.6)
+      });
+    }
+  }
+
+  canvas.style.pointerEvents = reduceMotion ? 'none' : 'auto';
+  if (!reduceMotion){
+    window.addEventListener('pointerdown', function(e){
+      spawnBurst(e.clientX, e.clientY, 10);
+    });
+  }
+
+  var last = performance.now();
+  function tick(now){
+    var dt = Math.min((now - last) / 1000, 0.05);
+    last = now;
+    ctx.clearRect(0, 0, W, H);
+
+    for (var i = 0; i < ambient.length; i++){
+      var a = ambient[i];
+      if (!reduceMotion){
+        a.y += a.speedY * dt;
+        a.rot += a.rotSpeed * dt;
+        a.x = a.baseX + Math.sin(now / 1000 * a.swayFreq + a.swayPhase) * a.swayAmp;
+        if (a.y > H + 40){
+          var fresh = makeAmbient(false);
+          fresh.baseX = fresh.x;
+          ambient[i] = fresh;
+          continue;
+        }
+      }
+      ctx.save();
+      ctx.translate(a.x, a.y);
+      ctx.rotate(a.rot);
+      drawPetalShape(a.size, a.color, a.opacity);
+      ctx.restore();
+    }
+
+    for (var j = bursts.length - 1; j >= 0; j--){
+      var b = bursts[j];
+      b.vy += 420 * dt;
+      b.x += b.vx * dt;
+      b.y += b.vy * dt;
+      b.rot += b.rotSpeed * dt;
+      b.life -= b.decay * dt;
+      if (b.life <= 0){ bursts.splice(j, 1); continue; }
+      ctx.save();
+      ctx.translate(b.x, b.y);
+      ctx.rotate(b.rot);
+      drawPetalShape(b.size, b.color, Math.max(b.life, 0));
+      ctx.restore();
+    }
+
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  /* ---------------- dodging "No" button ---------------- */
+  var btnYes = document.getElementById('btn-yes');
+  var btnNo = document.getElementById('btn-no');
+  var wrap = document.getElementById('buttons-wrap');
+  var dodgeLine = document.getElementById('dodge-line');
+  var dodges = 0;
+  var noPhrases = [
+    'No', 'Are you sure?', 'Really sure?', 'Think again', 'Last chance',
+    'You might regret this', 'Okay, one more try', 'Give it up already', 'Just say yes'
+  ];
+
+  function dodge(){
+    if (btnYes.dataset.answered) return;
+    dodges = Math.min(dodges + 1, noPhrases.length - 1);
+    btnNo.textContent = noPhrases[dodges];
+    dodgeLine.textContent = dodges === 1 ? 'nice try.' :
+      dodges >= noPhrases.length - 1 ? "it's not going to work, you know." :
+      'the "no" button seems a little shy.';
+
+    var wrapRect = wrap.getBoundingClientRect();
+    var btnRect = btnNo.getBoundingClientRect();
+    var maxX = Math.max(wrapRect.width - btnRect.width - 8, 8);
+    var maxY = Math.max(wrapRect.height - btnRect.height - 8, 8);
+
+    if (!btnNo.classList.contains('dodging')){
+      btnNo.classList.add('dodging');
+    }
+    btnNo.style.left = rand(0, maxX) + 'px';
+    btnNo.style.top = rand(0, maxY) + 'px';
+
+    var scale = Math.min(1 + dodges * 0.045, 1.35);
+    btnYes.style.transform = 'scale(' + scale + ')';
+  }
+
+  if (!reduceMotion){
+    btnNo.addEventListener('pointerenter', dodge);
+  }
+  btnNo.addEventListener('click', function(e){
+    e.preventDefault();
+    dodge();
+  });
+  btnNo.addEventListener('touchstart', function(e){
+    e.preventDefault();
+    dodge();
+  }, { passive: false });
+
+  var askSection = document.getElementById('ask-section');
+  var celebration = document.getElementById('celebration');
+
+  btnYes.addEventListener('click', function(){
+    btnYes.dataset.answered = 'true';
+    askSection.style.transition = 'opacity .5s ease';
+    askSection.style.opacity = '0';
+    setTimeout(function(){
+      askSection.style.display = 'none';
+      celebration.classList.add('show');
+      if (!reduceMotion){
+        [0, 140, 280, 420].forEach(function(delay){
+          setTimeout(function(){
+            spawnBurst(rand(W * 0.2, W * 0.8), rand(60, 160), 16);
+          }, delay);
+        });
+      }
+      celebration.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+    }, 480);
+  });
+})();
+</script>
+
+</body>
+</html>
