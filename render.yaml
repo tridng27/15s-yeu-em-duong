@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: 15s-yeu-em-duong
+    env: static
+    buildCommand: bash build.sh
+    staticPublishPath: .
