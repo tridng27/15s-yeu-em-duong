@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Dương</title>
+<title>Gửi Dương</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Dancing+Script:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
@@ -382,41 +382,41 @@
 <main class="page">
 
   <section class="hero">
-    <p class="eyebrow">A letter carried on petals, for</p>
+    <p class="eyebrow">Một lá thư trôi theo cánh hoa, gửi đến</p>
     <h1 class="hero-name">Doãn Thùy Dương</h1>
     <div class="hero-icons" aria-hidden="true">
       <svg viewBox="0 0 64 64"><use href="#icon-rose-outline"/></svg>
       <svg viewBox="0 0 64 64"><use href="#icon-rose"/></svg>
       <svg viewBox="0 0 64 64"><use href="#icon-rose-outline"/></svg>
     </div>
-    <p class="hero-sub">every petal on this screen is the same thought, drifting past you again and again</p>
+    <p class="hero-sub">mỗi cánh hoa trên màn hình này đều là cùng một suy nghĩ, cứ trôi ngang qua em mãi không thôi</p>
   </section>
 
   <section class="letter">
     <div class="seal"><svg viewBox="0 0 64 64"><use href="#icon-rose"/></svg></div>
     <p class="salutation">Dương ơi,</p>
-    <p>Some things are worth saying in more than a text message, so I built you a small garden instead. Every petal drifting across this page is the same thought, falling over and over — the way you've been on my mind, on repeat, for longer than I've let on.</p>
-    <p>If it isn't obvious yet: I like you. Not the quiet, unspoken kind of liking — the kind where I've rewritten this sentence more times than I'd admit, and finally decided it would come out steadier here, in red and pink, than it ever would standing in front of you.</p>
-    <p>So here it is, out in the open, roses and all —</p>
-    <span class="sign-off">will you let me take you out?</span>
+    <p>Có những điều đáng để nói nhiều hơn một tin nhắn, nên anh đã làm cho em một khu vườn nhỏ thay vào đó. Mỗi cánh hoa trôi qua trang này là cùng một suy nghĩ, rơi mãi không ngừng — giống như cách em vẫn luôn ở trong tâm trí anh, lặp đi lặp lại, lâu hơn những gì anh từng để lộ ra.</p>
+    <p>Nếu điều này vẫn chưa đủ rõ: anh thích em. Không phải kiểu thích âm thầm, giấu kín — mà là kiểu anh đã viết đi viết lại câu này nhiều lần hơn anh dám thừa nhận, và cuối cùng quyết định rằng nó sẽ vững vàng hơn khi hiện ra ở đây, giữa sắc đỏ và hồng, hơn là khi đứng trước mặt em.</p>
+    <p>Vậy nên đây rồi, nói thẳng ra, cùng với những đóa hồng —</p>
+    <span class="sign-off">em có cho anh mời em đi chơi không?</span>
   </section>
 
   <section class="ask" id="ask-section">
-    <h2 class="ask-question">Will you go out with me, <em>Dương</em>?</h2>
+    <h2 class="ask-question">Em có đồng ý hẹn hò với anh không, <em>Dương</em>?</h2>
     <div class="buttons" id="buttons-wrap">
-      <button class="btn btn-yes" id="btn-yes" type="button">Yes, always.</button>
-      <button class="btn btn-no" id="btn-no" type="button">No</button>
+      <button class="btn btn-yes" id="btn-yes" type="button">Có, luôn luôn.</button>
+      <button class="btn btn-no" id="btn-no" type="button">Không</button>
     </div>
     <p class="dodge-count" id="dodge-line" aria-live="polite"></p>
   </section>
 
   <section class="celebration" id="celebration">
     <div class="celebration-icon"><svg viewBox="0 0 64 64"><use href="#icon-rose"/></svg></div>
-    <h2>Then it's a date.</h2>
-    <p>I'll be counting the days until — and I promise the next bouquet won't need a screen. Thank you for saying yes, Dương.</p>
+    <h2>Vậy là hẹn nhé.</h2>
+    <p>Anh sẽ đếm từng ngày cho đến lúc đó — và anh hứa bó hoa tiếp theo sẽ không cần đến màn hình nữa. Cảm ơn em đã đồng ý, Dương.</p>
   </section>
 
-  <footer class="note">— written by the one who kept redrafting this at 2am</footer>
+  <footer class="note">— viết bởi người cứ mãi sửa đi sửa lại trang này lúc 2 giờ sáng</footer>
 
 </main>
 
@@ -563,17 +563,17 @@
   var dodgeLine = document.getElementById('dodge-line');
   var dodges = 0;
   var noPhrases = [
-    'No', 'Are you sure?', 'Really sure?', 'Think again', 'Last chance',
-    'You might regret this', 'Okay, one more try', 'Give it up already', 'Just say yes'
+    'Không', 'Em chắc chưa?', 'Chắc luôn hả?', 'Suy nghĩ lại đi', 'Cơ hội cuối cùng',
+    'Em sẽ hối hận đó', 'Được rồi, thử lại lần nữa', 'Thôi bỏ cuộc đi', 'Nói có đi mà'
   ];
 
   function dodge(){
     if (btnYes.dataset.answered) return;
     dodges = Math.min(dodges + 1, noPhrases.length - 1);
     btnNo.textContent = noPhrases[dodges];
-    dodgeLine.textContent = dodges === 1 ? 'nice try.' :
-      dodges >= noPhrases.length - 1 ? "it's not going to work, you know." :
-      'the "no" button seems a little shy.';
+    dodgeLine.textContent = dodges === 1 ? 'cố lên nào.' :
+      dodges >= noPhrases.length - 1 ? "không có tác dụng đâu, em biết mà." :
+      'nút "không" có vẻ hơi mắc cỡ.';
 
     var wrapRect = wrap.getBoundingClientRect();
     var btnRect = btnNo.getBoundingClientRect();
